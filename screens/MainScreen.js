@@ -1,4 +1,6 @@
 import React from 'react';
+
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -9,14 +11,31 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 // const Tab = createMaterialTopTabNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
+const OpenDetailButton = () => {
+  const navigation = useNavigation();
+  // navigation을 상위 컴포넌트에서 props로 넣어주지 않아도 사용 가능
+  return (
+    <Button
+      title="Detail 1 열기"
+      onPress={() => navigation.push('Detail', {id: 1})}
+    />
+  );
+};
+
 const HomeScreen = ({navigation}) => {
+  //다른 화면 열었다가 돌아왔을때 특정작업 해야할 경우
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('이화면 보는중');
+      return () => {
+        console.log('다른화면 넘어감');
+      };
+    }, []),
+  );
   return (
     <View>
       <Text>Home</Text>
-      <Button
-        title="Detail 1 열기"
-        onPress={() => navigation.push('Detail', {id: 1})}
-      />
+      <OpenDetailButton />
     </View>
   );
 };

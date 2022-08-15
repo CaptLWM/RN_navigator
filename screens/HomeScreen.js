@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, View} from 'react-native';
-
 const HomeScreen = ({navigation}) => {
   React.useEffect(() => {
     navigation.setOptions({title: '홈'});
