@@ -1,105 +1,116 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text} from 'react-native';
-import {
-  getFocusedRouteNameFromRoute,
-  NavigationContainer,
-} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {Text, View, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MainScreen from './screens/MainScreen';
-import DetailScreen from './screens/DetailScreen';
 
-const Stack = createNativeStackNavigator();
+// const Tab = createBottomTabNavigator();
+// const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-const getHeaderTitle = route => {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
-  const nameMap = {
-    Home: '홈',
-    Search: '검색',
-    Notification: '알림',
-    Message: '메세지',
-  };
-  // route 객체로 현재 포커스된 화면의 이름을 조회
-  console.log(routeName);
-  return nameMap[routeName];
-};
-
-const App = () => {
+const HomeScreen = ({navigation}) => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Main"
-          component={MainScreen}
-          options={({route}) => ({
-            title: getHeaderTitle(route),
-          })}
-          // options={{headerShown: false}}
-          // 두개의 헤더가 나타나게됨 (Tab.screen title, stack.screen title)
-          // 상단 탭 내비게이터를 사용할 경우 헤더를 보여주지 않기 때문에 headershown true로 변경
-        />
-        <Stack.Screen name="Detail" component={DetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View>
+      <Text>Home</Text>
+      <Button
+        title="Detail 1 열기"
+        onPress={() => navigation.push('Detail', {id: 1})}
+      />
+    </View>
   );
 };
 
-// const App = () => {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator
-//         initialRouteName="Home"
-//         tabBarOptions={{
-//           activeTintColor: '#fb8c00',
-//           showLabel: false,
-//         }}>
-//         <Tab.Screen
-//           name="Home"
-//           component={HomeScreen}
-//           options={{
-//             title: '홈',
-//             tabBarIcon: ({color, size}) => (
-//               <Icon name="home" color={color} size={size} />
-//             ),
-//           }}
-//         />
-//         <Tab.Screen
-//           name="Search"
-//           component={SearchScreen}
-//           options={{
-//             title: '검색',
-//             tabBarIcon: ({color, size}) => (
-//               <Icon name="search" color={color} size={size} />
-//             ),
-//           }}
-//         />
-//         <Tab.Screen
-//           name="Notification"
-//           component={NotificationScreen}
-//           options={{
-//             title: '알림',
-//             tabBarIcon: ({color, size}) => (
-//               <Icon name="notifications" color={color} size={size} />
-//             ),
-//           }}
-//         />
-//         <Tab.Screen
-//           name="Message"
-//           component={MessageScreen}
-//           options={{
-//             title: '메시지',
-//             tabBarIcon: ({color, size}) => (
-//               <Icon name="message" color={color} size={size} />
-//             ),
-//           }}
-//         />
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// };
+const SearchScreen = ({navigation}) => {
+  return (
+    <View>
+      <Text>Search</Text>
+    </View>
+  );
+};
 
-export default App;
+const MessageScreen = ({navigation}) => {
+  return (
+    <View>
+      <Text>Message</Text>
+    </View>
+  );
+};
+
+const NotificationScreen = ({navigation}) => {
+  return (
+    <View>
+      <Text>Notification</Text>
+    </View>
+  );
+};
+
+const MainScreen = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      tabBarOptions={{
+        showIcon: true,
+        //   activeTintColor: '#fb8c00',
+        //   showLabel: false,
+      }}
+      //   screenOptions={{
+      //     tabBarIndicatorStyle: {
+      //       backgroundColor: '#009688',
+      //     },
+      //     tabBarActiveTintColor: '#009688',
+      //   }}>
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: '홈',
+          tabBarIcon: ({color}) => <Icon name="home" color={color} size={24} />,
+          tabBarColor: 'black',
+          tabBarBadge: 'new',
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarLabel: '검색',
+          tabBarIcon: ({color}) => (
+            <Icon name="search" color={color} size={24} />
+          ),
+          tabBarColor: 'gray',
+        }}
+      />
+      <Tab.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          tabBarLabel: '알림',
+          tabBarIcon: ({color}) => (
+            <Icon name="notifications" color={color} size={24} />
+          ),
+          tabBarColor: 'green',
+          tabBarBadge: '30',
+        }}
+      />
+      <Tab.Screen
+        name="Message"
+        component={MessageScreen}
+        options={{
+          tabBarLabel: '메시지',
+          tabBarIcon: ({color}) => (
+            <Icon name="message" color={color} size={24} />
+          ),
+          tabBarColor: 'blue',
+          tabBarBadge: true,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export default MainScreen;
 
 // import {NavigationContainer, StackActions} from '@react-navigation/native';
 // import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -118,19 +129,6 @@ export default App;
 
 // const Drawer = createDrawerNavigator();
 
-// const HomeScreen = ({navigation}) => {
-//   return (
-//     <View>
-//       <Text>Home</Text>
-//       <Button title="Drawer 열기" onPress={() => navigation.openDrawer()} />
-//       <Button
-//         title="Setting 열기"
-//         onPress={() => navigation.navigate('Setting')}
-//       />
-//     </View>
-//   );
-// };
-
 // const SettingScreen = ({navigation}) => {
 //   return (
 //     <View>
@@ -140,7 +138,7 @@ export default App;
 //   );
 // };
 
-// const App = () => {
+// const MainScreen = () => {
 //   return (
 //     <NavigationContainer>
 //       <Drawer.Navigator
@@ -228,4 +226,4 @@ export default App;
 //   );
 // };
 
-// export default App;
+// export default MainScreen;
