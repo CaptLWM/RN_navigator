@@ -4,6 +4,7 @@ import {useRoute} from '@react-navigation/native';
 
 const IDText = () => {
   const route = useRoute();
+  // 컴포넌트에서 route 객체 사용할 수 있도록
   return <Text style={styles.text}>id:{route.params.id}</Text>;
 };
 const DetailScreen = ({route, navigation}) => {
